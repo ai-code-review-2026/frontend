@@ -30,6 +30,7 @@ const BACKEND_SYNC_TIMEOUT_MS = Math.max(
   1_000,
   Number(process.env.DASHBOARD_BACKEND_SYNC_TIMEOUT_MS ?? "15000") || 15_000,
 )
+const CLERK_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY?.trim())
 
 function parseAdminEmails(rawValue: string | undefined): Set<string> {
   if (!rawValue || rawValue.trim().length === 0) {
@@ -191,6 +192,10 @@ async function syncAccessWithBackend(args: {
 }
 
 export const getAuthenticatedDashboardUser = cache(async (): Promise<DashboardAuthUser | null> => {
+  if (!CLERK_CONFIGURED) {
+    return null
+  }
+
   const { userId, sessionClaims, orgId, orgRole, orgSlug, getToken } = await auth()
   if (!userId) {
     return null

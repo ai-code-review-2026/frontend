@@ -21,6 +21,8 @@ const mono = IBM_Plex_Mono({
 })
 
 const clerkRuntimeConfig = getClerkRuntimeConfig()
+const clerkPublishableKey =
+  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY?.trim() || "pk_test_devora_placeholder"
 
 export const metadata: Metadata = {
   title: "Devora",
@@ -37,6 +39,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider
+      publishableKey={clerkPublishableKey}
       {...clerkRuntimeConfig}
       signInFallbackRedirectUrl="/auth/role-redirect"
       signUpFallbackRedirectUrl="/auth/role-redirect"
@@ -56,15 +59,12 @@ export default function RootLayout({
           borderRadius: "0px",
         } as any,
         elements: {
-          // Hide extra Clerk pages while keeping sign-in/sign-up route actions available.
           footerPages: { display: "none" },
-          // Card styling
           card: {
             backgroundColor: "var(--bg-card)",
             border: "1px solid var(--border-card)",
             boxShadow: "none",
           },
-          // Form styling
           formButtonPrimary: {
             backgroundColor: "var(--orange)",
             "&:hover": { backgroundColor: "var(--orange-hover)" },
@@ -74,19 +74,15 @@ export default function RootLayout({
             borderColor: "var(--border-card)",
             "&:focus": { borderColor: "var(--orange)" },
           },
-          // Header styling
           headerTitle: { color: "var(--text-primary)" },
           headerSubtitle: { color: "var(--text-muted)" },
-          // Social buttons
           socialButtonsBlockButton: {
             backgroundColor: "var(--bg-card-inner)",
             borderColor: "var(--border-card)",
             "&:hover": { backgroundColor: "var(--bg-card-hover)" },
           },
-          // Divider
           dividerLine: { backgroundColor: "var(--border-card)" },
           dividerText: { color: "var(--text-muted)" },
-          // User button
           userButtonPopoverCard: {
             backgroundColor: "var(--bg-card)",
             border: "1px solid var(--border-card)",
