@@ -1,0 +1,53 @@
+
+> ai-code-review-dashboard@0.1.0 predev
+> npm run sync:clerk-assets
+
+
+> ai-code-review-dashboard@0.1.0 sync:clerk-assets
+> node ./scripts/sync-clerk-assets.cjs
+
+Synced Clerk assets to C:\Users\Ahmed Amin Bejoui\Desktop\ai-code-review-platform\apps\dashboard\public\vendor\clerk-js\current
+
+> ai-code-review-dashboard@0.1.0 dev
+> npm run clean:next && next dev -H 0.0.0.0 -p 3001
+
+
+> ai-code-review-dashboard@0.1.0 clean:next
+> node ./scripts/reset-next-cache.cjs
+
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://0.0.0.0:3001
+- Environments: .env.local
+✓ Ready in 1561ms
+
+○ Compiling /mobile/prs ...
+ GET /mobile/prs/ 200 in 10.6s (next.js: 9.0s, proxy.ts: 685ms, application-code: 836ms)
+ GET /mobile/prs/ 200 in 114ms (next.js: 9ms, proxy.ts: 16ms, application-code: 90ms)
+Clerk: Refreshing the session token resulted in an infinite redirect loop. This usually means that your Clerk instance keys do not match - make sure to copy the correct publishable and secret keys from the Clerk dashboard.
+ GET /mobile/prs/ 200 in 683ms (next.js: 18ms, proxy.ts: 30ms, application-code: 635ms)
+ GET /icon.svg 404 in 2.0s (next.js: 1796ms, application-code: 253ms)
+ GET /icon.svg 404 in 292ms (next.js: 32ms, application-code: 260ms)
+Clerk: Refreshing the session token resulted in an infinite redirect loop. This usually means that your Clerk instance keys do not match - make sure to copy the correct publishable and secret keys from the Clerk dashboard.
+ GET /mobile/prs/ 200 in 203ms (next.js: 10ms, proxy.ts: 26ms, application-code: 167ms)
+Clerk: Refreshing the session token resulted in an infinite redirect loop. This usually means that your Clerk instance keys do not match - make sure to copy the correct publishable and secret keys from the Clerk dashboard.
+ GET /mobile/prs/ 200 in 258ms (next.js: 10ms, proxy.ts: 49ms, application-code: 199ms)
+Clerk: Refreshing the session token resulted in an infinite redirect loop. This usually means that your Clerk instance keys do not match - make sure to copy the correct publishable and secret keys from the Clerk dashboard.
+ GET /mobile/prs/ 200 in 168ms (next.js: 8ms, proxy.ts: 24ms, application-code: 137ms)
+Clerk: Refreshing the session token resulted in an infinite redirect loop. This usually means that your Clerk instance keys do not match - make sure to copy the correct publishable and secret keys from the Clerk dashboard.
+ GET /mobile/prs/ 200 in 155ms (next.js: 11ms, proxy.ts: 13ms, application-code: 132ms)
+Clerk: Refreshing the session token resulted in an infinite redirect loop. This usually means that your Clerk instance keys do not match - make sure to copy the correct publishable and secret keys from the Clerk dashboard.
+ GET /mobile/prs/ 200 in 534ms (next.js: 13ms, proxy.ts: 20ms, application-code: 501ms)
+Clerk: Refreshing the session token resulted in an infinite redirect loop. This usually means that your Clerk instance keys do not match - make sure to copy the correct publishable and secret keys from the Clerk dashboard.
+ GET /mobile/prs/ 200 in 174ms (next.js: 7ms, proxy.ts: 44ms, application-code: 123ms)
+Clerk: Refreshing the session token resulted in an infinite redirect loop. This usually means that your Clerk instance keys do not match - make sure to copy the correct publishable and secret keys from the Clerk dashboard.
+ GET /mobile/prs/ 200 in 199ms (next.js: 6ms, proxy.ts: 24ms, application-code: 169ms)
+Clerk: Refreshing the session token resulted in an infinite redirect loop. This usually means that your Clerk instance keys do not match - make sure to copy the correct publishable and secret keys from the Clerk dashboard.
+ GET /mobile/prs/ 200 in 217ms (next.js: 9ms, proxy.ts: 50ms, application-code: 157ms)
+Clerk: Refreshing the session token resulted in an infinite redirect loop. This usually means that your Clerk instance keys do not match - make sure to copy the correct publishable and secret keys from the Clerk dashboard.
+ GET /mobile/prs/ 200 in 300ms (next.js: 16ms, proxy.ts: 17ms, application-code: 266ms)
+Clerk: Refreshing the session token resulted in an infinite redirect loop. This usually means that your Clerk instance keys do not match - make sure to copy the correct publishable and secret keys from the Clerk dashboard.
+ GET /mobile/prs/ 200 in 341ms (next.js: 7ms, proxy.ts: 15ms, application-code: 319ms)
+Clerk: Refreshing the session token resulted in an infinite redirect loop. This usually means that your Clerk instance keys do not match - make sure to copy the correct publishable and secret keys from the Clerk dashboard.
+ GET /mobile/prs/ 200 in 483ms (next.js: 7ms, proxy.ts: 36ms, application-code: 441ms)
+[?25h

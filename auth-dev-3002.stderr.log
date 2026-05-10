@@ -1,0 +1,8 @@
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3001
+- PID:          14888
+- Dir:          C:\Users\Ahmed Amin Bejoui\Desktop\ai-code-review-platform\apps\dashboard
+- Log:          .next\dev\logs\next-development.log
+
+Run taskkill /PID 14888 /F to stop it.
