@@ -384,6 +384,7 @@ const html = String.raw`<!doctype html>
           if (token) return token;
         } catch (_) {}
 
+        // Exponential backoff: wait a little longer after each missed token.
         await new Promise((resolve) => setTimeout(resolve, 250 * (attempt + 1)));
       }
 
