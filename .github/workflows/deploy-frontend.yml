@@ -21,6 +21,9 @@ on:
       - ".dockerignore"
       - ".github/workflows/deploy-frontend.yml"
 
+permissions:
+  contents: read
+
 jobs:
   build-and-push:
     name: Build and Push Frontend Image

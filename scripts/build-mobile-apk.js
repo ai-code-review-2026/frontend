@@ -376,6 +376,8 @@ const html = String.raw`<!doctype html>
     async function getClerkToken() {
       if (!clerk || !clerk.session) return '';
 
+      // On mobile webviews, Clerk can briefly return null right after sign-in.
+      // Force refresh + short retry window before giving up.
       for (let attempt = 0; attempt < 4; attempt += 1) {
         try {
           const token = await clerk.session.getToken({ skipCache: true });
