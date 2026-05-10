@@ -10,7 +10,6 @@ import { cn } from '@/components/ui/utils';
 import { trustLogos } from './data';
 import { CodeGraphVisual } from './code-graph-visual';
 import { AnimatedReviewShowcase } from './animated-review-showcase';
-import { ContainerScroll } from '@/components/ui/container-scroll-animation';
 import { PremiumFooter } from './premium-footer';
 import { PremiumNavbar } from './premium-navbar';
 import { GraphiteSections } from './graphite-sections';
@@ -125,12 +124,12 @@ export function PremiumLandingPage({ displayClassName, monoClassName }: PremiumL
 
       <section className="relative px-6 pb-20 pt-36">
         <div className="pointer-events-none absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(73,82,127,0.14)_1px,transparent_1px),linear-gradient(90deg,rgba(73,82,127,0.14)_1px,transparent_1px)] [background-size:18px_18px]" />
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-[1360px]">
           <h1 className="text-center text-6xl font-semibold tracking-[-0.04em] md:text-7xl">
             The leader in AI code reviews
           </h1>
 
-          <ContainerScroll>
+          <div className="mx-auto mt-12 aspect-[16/9] w-full max-w-[1320px] overflow-hidden rounded-[28px] bg-white dark:bg-[#0B0D12] shadow-[0_24px_80px_rgba(0,0,0,0.18)] dark:shadow-[0_24px_80px_rgba(0,0,0,0.55)] md:mt-14">
             <video
               src="/features.webm"
               autoPlay
@@ -138,9 +137,9 @@ export function PremiumLandingPage({ displayClassName, monoClassName }: PremiumL
               loop
               playsInline
               preload="metadata"
-              className="h-full w-full rounded-2xl object-cover"
+              className="block h-full w-full rounded-[28px] object-contain"
             />
-          </ContainerScroll>
+          </div>
 
           <div className="mt-12 border border-border bg-card/75 p-4 md:p-6">
             <div className="grid gap-4 md:grid-cols-3">
@@ -157,7 +156,7 @@ export function PremiumLandingPage({ displayClassName, monoClassName }: PremiumL
                 <p className="text-4xl text-[#ff6a00]">Defects found</p>
               </div>
             </div>
-            <p className={cn('mt-8 text-center text-3xl text-[#17f0c4] underline', monoClassName)}>Why teams prefer CodeRabbit</p>
+            <p className={cn('mt-8 text-center text-3xl text-[#17f0c4] underline', monoClassName)}>Why teams prefer Devora</p>
           </div>
 
           <p className={cn('mt-16 text-center text-6xl', monoClassName)}>Trusted by <span className="text-[#17f0c4]">15,000+</span> customers</p>
