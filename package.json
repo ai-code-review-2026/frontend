@@ -19,7 +19,7 @@
     "mobile:check": "node ./scripts/mobile-diagnostic.js",
     "mobile:apk": "node ./scripts/build-mobile-apk.js",
     "mobile:build:vps": "node ./scripts/build-mobile-vps.js",
-    "mobile:build": "npm run mobile:build:vps",
+    "mobile:build": "node ./scripts/build-mobile-apk.js",
     "mobile:build:minimal": "node ./scripts/build-mobile-minimal.js",
     "mobile:build:full": "node ./scripts/build-mobile.js",
     "mobile:build:landing": "node ./scripts/build-mobile-landing.js",

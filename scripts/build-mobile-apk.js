@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Build Android APK web assets as a native Capacitor shell that talks to the
- * deployed backend API. Use MOBILE_API_BASE to override the backend URL.
+ * real local backend. The Android emulator reaches the host machine through
+ * http://10.0.2.2, so the default API base is http://10.0.2.2:8000.
  */
 
 const { execSync } = require('child_process')
@@ -30,7 +31,7 @@ function loadEnvFile(filePath) {
 loadEnvFile(path.join(ROOT, '.env.local'))
 loadEnvFile(path.join(ROOT, '.env'))
 
-const DEFAULT_MOBILE_API_BASE = process.env.MOBILE_API_BASE || 'http://135.125.100.150:8000'
+const DEFAULT_MOBILE_API_BASE = process.env.MOBILE_API_BASE || 'http://10.0.2.2:8000'
 const CLERK_PUBLISHABLE_KEY =
   process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || process.env.CLERK_PUBLISHABLE_KEY || ''
 const CLERK_ASSETS_SOURCE = path.join(ROOT, 'public', 'vendor', 'clerk-js', 'current')
@@ -267,7 +268,7 @@ const html = String.raw`<!doctype html>
   <div id="app" class="shell">
     <header class="topbar">
       <div class="brand"><div class="brand-mark">AI</div><div class="brand-title">Code Review</div></div>
-      <button class="api-badge" id="api-badge" data-refresh><span class="dot" id="api-dot"></span><span id="api-text">Backend API</span></button>
+      <button class="api-badge" id="api-badge" data-refresh><span class="dot" id="api-dot"></span><span id="api-text">Backend local</span></button>
     </header>
 
     <main class="content">
@@ -279,12 +280,12 @@ const html = String.raw`<!doctype html>
         <div class="login-card">
           <div id="clerk-status" class="subtitle">Chargement de Clerk...</div>
           <div id="clerk-sign-in" style="margin-top:12px"></div>
-          <div class="notice" style="margin-top:14px">L'APK envoie le JWT Clerk au backend FastAPI sur <span id="login-api-base"></span>. Les roles Developer / Tech Lead viennent de Clerk et du RBAC plateforme.</div>
+          <div class="notice" style="margin-top:14px">L'APK envoie le JWT Clerk au backend local FastAPI sur <span id="login-api-base"></span>. Les roles Developer / Tech Lead viennent de Clerk et du RBAC plateforme.</div>
         </div>
       </section>
 
       <section id="view-prs" class="view">
-        <div class="page-head"><h1>All PRs</h1><div class="subtitle" id="prs-subtitle">Connexion au backend...</div></div>
+        <div class="page-head"><h1>All PRs</h1><div class="subtitle" id="prs-subtitle">Connexion au backend local...</div></div>
         <div class="tabs" id="tabs"></div>
         <div class="list" id="prs-list"><div class="loading">Chargement des analyses reelles...</div></div>
       </section>
@@ -299,19 +300,19 @@ const html = String.raw`<!doctype html>
 
       <section id="view-notifications" class="view">
         <div class="between page-head">
-          <div><h1>Notifications</h1><div class="subtitle" id="notif-subtitle">Depuis le backend</div></div>
+          <div><h1>Notifications</h1><div class="subtitle" id="notif-subtitle">Depuis le backend local</div></div>
           <button class="pill" data-mark-all>Mark all</button>
         </div>
         <div class="list" id="notif-list"><div class="loading">Chargement...</div></div>
       </section>
 
       <section id="view-health" class="view">
-        <div class="page-head"><h1>Platform Health</h1><div class="subtitle">Backend FastAPI</div></div>
+        <div class="page-head"><h1>Platform Health</h1><div class="subtitle">Backend local FastAPI</div></div>
         <div id="health-body"><div class="loading">Chargement...</div></div>
       </section>
 
       <section id="view-dashboard" class="view">
-        <div class="page-head"><h1>Dashboard</h1><div class="subtitle" id="dashboard-subtitle">Stats backend</div></div>
+        <div class="page-head"><h1>Dashboard</h1><div class="subtitle" id="dashboard-subtitle">Stats backend local</div></div>
         <div class="card" id="account-card" style="margin-bottom:12px"></div>
         <div class="metric-grid" id="dashboard-grid"></div>
         <div class="section-title">Actions rapides</div>
@@ -321,7 +322,7 @@ const html = String.raw`<!doctype html>
           <button class="card" data-nav="health" data-tech-lead><div class="title">Sante plateforme</div><div class="meta">Queue, workers et services</div></button>
           <button class="card" data-sign-out><div class="title">Deconnexion</div><div class="meta">Retirer le token mobile de cet emulateur</div></button>
         </div>
-        <div class="notice" style="margin-top:16px">APK natif Capacitor. Les donnees viennent de <span id="api-base-label"></span>.</div>
+        <div class="notice" style="margin-top:16px">APK natif Capacitor. Les donnees viennent de <span id="api-base-label"></span>. Dans un emulateur Android, 10.0.2.2 pointe vers votre PC.</div>
       </section>
     </main>
 
@@ -375,14 +376,13 @@ const html = String.raw`<!doctype html>
     async function getClerkToken() {
       if (!clerk || !clerk.session) return '';
 
-      // On mobile webviews, Clerk can briefly return null right after sign-in.
-      // Force refresh + short retry window before giving up.
       for (let attempt = 0; attempt < 4; attempt += 1) {
         try {
           const token = await clerk.session.getToken({ skipCache: true });
           if (token) return token;
         } catch (_) {}
-        await new Promise(function (resolve) { setTimeout(resolve, 250 * (attempt + 1)); });
+
+        await new Promise((resolve) => setTimeout(resolve, 250 * (attempt + 1)));
       }
 
       try {
@@ -424,7 +424,7 @@ const html = String.raw`<!doctype html>
       const dot = document.getElementById('api-dot');
       const text = document.getElementById('api-text');
       dot.className = 'dot ' + (online ? 'ok' : 'bad');
-      text.textContent = online ? 'Backend API' : 'Backend indisponible';
+      text.textContent = online ? 'Backend local' : 'Backend indisponible';
       if (message) showToast(message);
     }
 
@@ -544,6 +544,7 @@ const html = String.raw`<!doctype html>
           showLogin('Session Clerk detectee, mais JWT non disponible. Patientez 2 secondes puis reconnectez-vous.');
           return;
         }
+
         const user = await apiGet('/v1/mobile/auth/me');
         state.user = user;
         showAuthenticatedShell();
@@ -751,7 +752,7 @@ const html = String.raw`<!doctype html>
     function renderPrs() {
       renderTabs();
       document.getElementById('prs-subtitle').textContent =
-        state.prs.length + ' pull request' + (state.prs.length === 1 ? '' : 's') + ' depuis backend';
+        state.prs.length + ' pull request' + (state.prs.length === 1 ? '' : 's') + ' depuis backend local';
       const root = document.getElementById('prs-list');
       if (!state.prs.length) {
         root.innerHTML = '<div class="empty">Aucune PR dans cette categorie</div>';
@@ -810,7 +811,7 @@ const html = String.raw`<!doctype html>
     function renderHealth() {
       const root = document.getElementById('health-body');
       if (!state.health) {
-        root.innerHTML = '<div class="notice">Backend indisponible. Verifiez que l API sur VPS est accessible, puis appuyez sur le badge backend en haut.</div>';
+        root.innerHTML = '<div class="notice">Backend local indisponible. Demarrez FastAPI sur 0.0.0.0:8000 puis appuyez sur le badge backend en haut.</div>';
         return;
       }
       const h = state.health;
